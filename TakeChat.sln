@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeChat.Server", "TakeChat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeChat.Client", "TakeChat.Client\TakeChat.Client.csproj", "{FA44C5EA-1CCE-46A7-83D6-B36E24802E49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeChat.Server.Test", "TakeChat.Server.Test\TakeChat.Server.Test.csproj", "{CE30C34A-B204-47AB-A8FA-16A2C4553EBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FA44C5EA-1CCE-46A7-83D6-B36E24802E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA44C5EA-1CCE-46A7-83D6-B36E24802E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA44C5EA-1CCE-46A7-83D6-B36E24802E49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE30C34A-B204-47AB-A8FA-16A2C4553EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE30C34A-B204-47AB-A8FA-16A2C4553EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE30C34A-B204-47AB-A8FA-16A2C4553EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE30C34A-B204-47AB-A8FA-16A2C4553EBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
