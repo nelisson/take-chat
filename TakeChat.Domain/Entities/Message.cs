@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TakeChat.Domain
+namespace TakeChat.Domain.Entities
 {
     public class Message
     {

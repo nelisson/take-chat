@@ -1,4 +1,5 @@
 using System;
+using TakeChat.Domain.Entities;
 using Xunit;
 
 namespace TakeChat.Domain.Test
