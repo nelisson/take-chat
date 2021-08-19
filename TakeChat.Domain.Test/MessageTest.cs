@@ -7,17 +7,18 @@ namespace TakeChat.Domain.Test
     public class MessageTest
     {
         private const string GENERAL_CHANNEL = "general";
+        private const string MAXIMUM_CHAR_SENTENCE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut imperdiet tempor libero eleifend auctor. Duis malesuada urna sed tincidunt eleifend.";
 
         [Fact]
         public void Constructor_WithEmptyParameterFrom_ThrowsException()
         {
-            Assert.Throws<ArgumentException>(() => new Message("", Faker.Internet.UserName(), GENERAL_CHANNEL, Faker.Lorem.Sentence(10)));
+            Assert.Throws<ArgumentException>(() => new Message("", Faker.Internet.UserName(), GENERAL_CHANNEL, MAXIMUM_CHAR_SENTENCE));
         }
 
         [Fact]
         public void Constructor_WithEmptyParameterToAndChannel_ThrowsException()
         {
-            Assert.Throws<ArgumentException>(() => new Message(Faker.Internet.UserName(), "", "", Faker.Lorem.Sentence(1)));
+            Assert.Throws<ArgumentException>(() => new Message(Faker.Internet.UserName(), "", "", MAXIMUM_CHAR_SENTENCE));
         }
 
         [Fact]
@@ -29,7 +30,7 @@ namespace TakeChat.Domain.Test
         [Fact]
         public void Constructor_WithBodyExcedingMaxCharsAllowed_ThrowsException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Message(Faker.Internet.UserName(), Faker.Internet.UserName(), GENERAL_CHANNEL, Faker.Lorem.Sentence(100)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Message(Faker.Internet.UserName(), Faker.Internet.UserName(), GENERAL_CHANNEL, MAXIMUM_CHAR_SENTENCE + "A"));
         }
 
         [Fact]
@@ -38,7 +39,7 @@ namespace TakeChat.Domain.Test
             var usernameFrom = Faker.Internet.UserName();
             var usernameTo = Faker.Internet.UserName();
             var channel = GENERAL_CHANNEL;
-            var body = Faker.Lorem.Sentence(2);
+            var body = MAXIMUM_CHAR_SENTENCE;
             
             var message = new Message(usernameFrom, usernameTo, channel, body);
 
