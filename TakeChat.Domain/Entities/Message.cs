@@ -38,5 +38,15 @@ namespace TakeChat.Domain.Entities
             Body = body;
             CreatedAt = DateTime.UtcNow;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj.GetHashCode() == GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            return $"{From}{To}{Channel}{Body}{CreatedAt}".GetHashCode();
+        }
     }
 }
