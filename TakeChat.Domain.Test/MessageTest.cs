@@ -47,7 +47,6 @@ namespace TakeChat.Domain.Test
             Assert.Equal(usernameTo, message.To);
             Assert.Equal(channel, message.Channel);
             Assert.Equal(body, message.Body);
-            Assert.NotNull(message.CreatedAt);
         }
     }
 }
