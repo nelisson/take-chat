@@ -4,10 +4,11 @@ namespace TakeChat.Domain.Entities
 {
     public class Message
     {
-        public string From { get; private set; }
-        public string To { get; private set; }
-        public string Channel { get; private set; }
-        public string Body { get; private set; }
+        public string From { get; }
+        public string To { get; }
+        public string Channel { get;}
+        public string Body { get; }
+        public DateTime CreatedAt { get; }
 
         public Message(string from, string to, string channel, string body)
         {
@@ -35,6 +36,7 @@ namespace TakeChat.Domain.Entities
             To = to;
             Channel = channel;
             Body = body;
+            CreatedAt = DateTime.UtcNow;
         }
     }
 }
