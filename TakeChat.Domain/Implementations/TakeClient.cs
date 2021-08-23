@@ -26,7 +26,7 @@ namespace TakeChat.Domain.Implementations
 
         public Task ListenToMessages()
         {
-            Task readStreamIn = Task.Run(() => ReadFromStreamInWriteToTcpStream());
+            Task readStreamIn = Task.Run(() => ReadFromInputWriteToTcpStream());
             Task writeStreamOut = Task.Run(() => ReadFromTcpStreamWriteToStreamOut());
 
             return Task.WhenAll(readStreamIn, writeStreamOut);
@@ -37,7 +37,7 @@ namespace TakeChat.Domain.Implementations
             return inputText.StartsWith('/');
         }
 
-        private void ReadFromStreamInWriteToTcpStream()
+        private void ReadFromInputWriteToTcpStream()
         {
             while (true)
             {
