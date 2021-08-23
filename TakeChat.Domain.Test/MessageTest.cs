@@ -40,15 +40,13 @@ namespace TakeChat.Domain.Test
             var usernameTo = Faker.Internet.UserName();
             var channel = GENERAL_CHANNEL;
             var body = MAXIMUM_CHAR_SENTENCE;
-            var createdAt = DateTime.UtcNow;
 
-            var message = new Message(usernameFrom, usernameTo, channel, body, createdAt);
+            var message = new Message(usernameFrom, usernameTo, channel, body);
 
             Assert.Equal(usernameFrom, message.From);
             Assert.Equal(usernameTo, message.To);
             Assert.Equal(channel, message.Channel);
             Assert.Equal(body, message.Body);
-            Assert.Equal(createdAt, message.CreatedAt);
         }
 
         [Fact]
@@ -58,10 +56,9 @@ namespace TakeChat.Domain.Test
             var usernameTo = Faker.Internet.UserName();
             var channel = GENERAL_CHANNEL;
             var body = MAXIMUM_CHAR_SENTENCE;
-            var createdAt = DateTime.UtcNow;
 
-            var message1 = new Message(usernameFrom, usernameTo, channel, body, createdAt);
-            var message2 = new Message(usernameFrom, usernameTo, channel, body, createdAt);
+            var message1 = new Message(usernameFrom, usernameTo, channel, body);
+            var message2 = new Message(usernameFrom, usernameTo, channel, body);
 
             Assert.Equal(message1, message2);
             Assert.Equal(message1.GetHashCode(), message2.GetHashCode());

@@ -8,9 +8,8 @@ namespace TakeChat.Domain.Entities
         public string To { get; }
         public string Channel { get; }
         public string Body { get; }
-        public DateTime CreatedAt { get; }
 
-        public Message(string from, string to, string channel, string body, DateTime? createdAt = null)
+        public Message(string from, string to, string channel, string body)
         {
             if (string.IsNullOrEmpty(from.Trim()))
             {
@@ -36,7 +35,6 @@ namespace TakeChat.Domain.Entities
             To = to;
             Channel = channel;
             Body = body;
-            CreatedAt = createdAt ?? DateTime.UtcNow;
         }
 
         public override bool Equals(object obj)
@@ -46,7 +44,7 @@ namespace TakeChat.Domain.Entities
 
         public override int GetHashCode()
         {
-            return $"{From}{To}{Channel}{Body}{CreatedAt}".GetHashCode();
+            return $"{From}{To}{Channel}{Body}".GetHashCode();
         }
     }
 }
