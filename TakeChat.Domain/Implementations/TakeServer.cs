@@ -14,12 +14,12 @@ namespace TakeChat.Domain.Implementations
     {
         private const string GENERAL_CHANNEL = "general";
         private const string SERVER_NAME = "server";
-
-        private readonly IMyTcpListener _listener;
+        private bool _isListen = false;
+        private readonly TcpListener _listener;
         private readonly TextWriter _streamOut;
         public readonly ConcurrentDictionary<Guid, IRegisteredUser> ConnectedUsers;
 
-        public TakeServer(IMyTcpListener listener, TextWriter streamOut)
+        public TakeServer(TcpListener listener, TextWriter streamOut)
         {
             _listener = listener;
             _streamOut = streamOut;
@@ -27,13 +27,8 @@ namespace TakeChat.Domain.Implementations
         }
 
         public async void ListenToClients()
-        {
-            if (!_listener.IsRunning)
-            {
-                throw new InvalidOperationException("Server needs be started before receive clients connections.");
-            }
-
-            while (_listener.IsRunning)
+        {   
+            while (_isListen)
             {
                 var client = await _listener.AcceptTcpClientAsync();
                 _ = Task.Run(() =>
@@ -161,6 +156,7 @@ namespace TakeChat.Domain.Implementations
             try
             {
                 _listener.Start();
+                _isListen = true;
                 _streamOut.WriteLine("Server is running");                
             }
             catch (SocketException)
@@ -172,6 +168,7 @@ namespace TakeChat.Domain.Implementations
         public void Stop()
         {
             _listener.Stop();
+            _isListen = false;
             ConnectedUsers.Clear();
         }
     }

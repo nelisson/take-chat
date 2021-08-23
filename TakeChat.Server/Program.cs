@@ -16,7 +16,7 @@ namespace TakeChat.Server.Application
             consoleOut.AutoFlush = true;
             Console.SetOut(consoleOut);
 
-            var server = new TakeServer(new MyTcpListener(listener), consoleOut);
+            var server = new TakeServer(listener, consoleOut);
 
             server.Start();
             server.ListenToClients();
