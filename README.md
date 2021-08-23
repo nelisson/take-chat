@@ -14,7 +14,10 @@ With TakeChat you can:
 * Send messages to a specific user (/u {userName} {message})
 * Send messages privately to a specific user (/u {userName} {message})
 * Left the general channel and close the application (/exit)
+
+_**Comming Soon Features**_
 * Get the list of commands (/help)
+* Create and change channels (/channel)
 
 After clone this repository, navigate to root directory and run
 * *dotnet build*
