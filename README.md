@@ -19,6 +19,8 @@ _**Comming Soon Features**_
 * Get the list of commands (/help)
 * Create and change channels (/channel)
 
+## Using TakeChat
+
 After clone this repository, navigate to root directory and run
 * *dotnet build*
 
