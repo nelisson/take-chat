@@ -6,13 +6,13 @@ namespace TakeChat.Domain.Entities
     {
         public string From { get; }
         public string To { get; }
-        public string Channel { get;}
+        public string Channel { get; }
         public string Body { get; }
         public DateTime CreatedAt { get; }
 
-        public Message(string from, string to, string channel, string body)
+        public Message(string from, string to, string channel, string body, DateTime? createdAt = null)
         {
-            if(string.IsNullOrEmpty(from.Trim()))
+            if (string.IsNullOrEmpty(from.Trim()))
             {
                 throw new ArgumentException("Campo remetente não pode ser deixado em branco");
             }
@@ -36,7 +36,7 @@ namespace TakeChat.Domain.Entities
             To = to;
             Channel = channel;
             Body = body;
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = createdAt ?? DateTime.UtcNow;
         }
 
         public override bool Equals(object obj)
