@@ -54,7 +54,7 @@ namespace TakeChat.Domain.Test
 
             var takeClient = new TakeClient(memoryStream, textReaderMoq.Object, textWriterMoq.Object);
 
-            Assert.Throws<AggregateException>(() => takeClient.ReadAndProccessInput());
+            Assert.Throws<OperationCanceledException>(() => takeClient.ReadAndProccessInput());
         }
 
         [Fact]
@@ -249,7 +249,7 @@ namespace TakeChat.Domain.Test
 
             var takeClient = new TakeClient(memoryStream, textReaderMoq.Object, textWriterMoq.Object);
 
-            Assert.Throws<AggregateException>(() => takeClient.ReadFromTcpAndProcess());
+            Assert.Throws<OperationCanceledException>(() => takeClient.ReadFromTcpAndProcess());
         }
 
         [Fact]

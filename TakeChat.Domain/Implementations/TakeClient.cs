@@ -45,7 +45,7 @@ namespace TakeChat.Domain.Implementations
                 {
                     ReadAndProccessInput();
                 }
-                catch (AggregateException)
+                catch (OperationCanceledException)
                 {
                     break;
                 }
@@ -73,7 +73,7 @@ namespace TakeChat.Domain.Implementations
 
                     if (message.Body == "CLOSE")
                     {
-                        throw new AggregateException("Communication closed");
+                        throw new OperationCanceledException("Communication closed");
                     }
                 }
                 catch (ArgumentException)
@@ -138,7 +138,7 @@ namespace TakeChat.Domain.Implementations
                 {
                     ReadFromTcpAndProcess();
                 }
-                catch (AggregateException)
+                catch (OperationCanceledException)
                 {
                     break;
                 }
@@ -159,7 +159,7 @@ namespace TakeChat.Domain.Implementations
                 {
                     if (message.Body == "*** Disconnected. Bye!")
                     {
-                        throw new AggregateException("Communication closed");
+                        throw new OperationCanceledException("Communication closed");
                     }
                     else if (message.Body == "USER")
                     {
