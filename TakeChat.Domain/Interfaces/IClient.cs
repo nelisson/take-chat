@@ -5,7 +5,8 @@ namespace TakeChat.Domain.Interfaces
     interface IClient
     {
         public Task ListenToMessages();
-        public Task ReadAndProccessInput();
-        public Task ReadFromTcpAndProcess();
+        public void ReadAndProccessInput();
+        public void ReadFromTcpAndProcess();
+        public string UserName { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace TakeChat.Domain.Implementations
         private readonly Stream _stream;
         private readonly TextReader _streamIn;
         private readonly TextWriter _streamOut;
-        private string _username = "me";
+        public string UserName { get; set; } = "me";
 
         public TakeClient(Stream stream, TextReader streamIn, TextWriter streamOut)
         {
@@ -26,8 +26,8 @@ namespace TakeChat.Domain.Implementations
 
         public Task ListenToMessages()
         {
-            Task readStreamIn = ReadFromStreamInWriteToTcpStream();
-            Task writeStreamOut = ReadFromTcpStreamWriteToStreamOut();
+            Task readStreamIn = Task.Run(() => ReadFromStreamInWriteToTcpStream());
+            Task writeStreamOut = Task.Run(() => ReadFromTcpStreamWriteToStreamOut());
 
             return Task.WhenAll(readStreamIn, writeStreamOut);
         }
@@ -37,13 +37,13 @@ namespace TakeChat.Domain.Implementations
             return inputText.StartsWith('/');
         }
 
-        private async Task ReadFromStreamInWriteToTcpStream()
+        private void ReadFromStreamInWriteToTcpStream()
         {
             while (true)
             {
                 try
                 {
-                    await ReadAndProccessInput();
+                    ReadAndProccessInput();
                 }
                 catch(AggregateException)
                 {
@@ -56,9 +56,9 @@ namespace TakeChat.Domain.Implementations
             }
         }
 
-        public async Task ReadAndProccessInput()
+        public void ReadAndProccessInput()
         {
-            var inputText = await _streamIn.ReadLineAsync();
+            var inputText = _streamIn.ReadLine();
 
             if (InputTextIsCommand(inputText))
             {
@@ -83,7 +83,7 @@ namespace TakeChat.Domain.Implementations
             }
             else
             {
-                var generalMessage = new Message(_username, "", GENERAL_CHANNEL, inputText);
+                var generalMessage = new Message(UserName, "", GENERAL_CHANNEL, inputText);
                 byte[] sendData = Encoding.ASCII.GetBytes(JsonSerializer.Serialize(generalMessage));
                 if (_stream.CanWrite)
                 {
@@ -127,16 +127,16 @@ namespace TakeChat.Domain.Implementations
                     break;
             }
 
-            return new Message(_username, to, channel, body);
+            return new Message(UserName, to, channel, body);
         }
 
-        private async Task ReadFromTcpStreamWriteToStreamOut()
+        private void ReadFromTcpStreamWriteToStreamOut()
         {
             while (true)
             {
                 try
                 {
-                    await ReadFromTcpAndProcess();
+                    ReadFromTcpAndProcess();
                 }
                 catch (AggregateException)
                 {
@@ -146,7 +146,7 @@ namespace TakeChat.Domain.Implementations
             }
         }
 
-        public async Task ReadFromTcpAndProcess()
+        public void ReadFromTcpAndProcess()
         {
             int position;
             var buffer = new byte[BUFFER_SIZE];
@@ -163,28 +163,28 @@ namespace TakeChat.Domain.Implementations
                     }
                     else if (message.Body == "USER")
                     {
-                        _username = message.To;
+                        UserName = message.To;
                     }
                     else
                     {
-                        await _streamOut.WriteLineAsync(message.Body);
+                         _streamOut.WriteLine(message.Body);
                     }
                 }
                 else
                 {
                     if (string.IsNullOrEmpty(message.To))
                     {
-                        await _streamOut.WriteLineAsync($"{message.From} says: {message.Body}");
+                         _streamOut.WriteLine($"{message.From} says: {message.Body}");
                     }
                     else
                     {
                         if (string.IsNullOrEmpty(message.Channel))
                         {
-                            await _streamOut.WriteLineAsync($"{message.From} says privately to {message.To}: {message.Body}");
+                             _streamOut.WriteLine($"{message.From} says privately to {message.To}: {message.Body}");
                         }
                         else
                         {
-                            await _streamOut.WriteLineAsync($"{message.From} says to {message.To}: {message.Body}");
+                             _streamOut.WriteLine($"{message.From} says to {message.To}: {message.Body}");
                         }
                     }
                 }
