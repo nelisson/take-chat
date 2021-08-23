@@ -32,7 +32,7 @@ To run the client application is the same way
 
 ## YES, we have Tests!!!
 This project has Unit Tests in the main classes with a almost fully code coverage (tsc tsc tsc)
-*dotnet test* will run the tests for this solution and integrate do Coverlet to find the code coverage
+*dotnet test* will run the tests for this solution and integrate to Coverlet to find the code coverage
 
 ![tests](https://user-images.githubusercontent.com/291539/130472633-33095dee-39a1-4369-afa7-38c7ab8716f9.png)
 
