@@ -26,7 +26,7 @@ namespace TakeChat.Domain.Implementations
             ConnectedUsers = new ConcurrentDictionary<Guid, IRegisteredUser>();
         }
 
-        private async void ListenToClients()
+        public async void ListenToClients()
         {
             if (!_listener.IsRunning)
             {
@@ -48,36 +48,39 @@ namespace TakeChat.Domain.Implementations
         private void ListenToMessages(Guid id)
         {
             var user = ConnectedUsers[id];
-            var listen = true;
-            while (listen)
+            while (true)
             {
                 var message = user.WaitForMessage();
+                ProcessMessage(message, user, id);
+            }
+        }
 
-                if (message.To == SERVER_NAME)
+        private void ProcessMessage(Message message, IRegisteredUser user, Guid id)
+        {
+            if (message.To == SERVER_NAME)
+            {
+                switch (message.Body)
                 {
-                    switch (message.Body)
-                    {
-                        case "CLOSE":
-                            user.SendMessage(new Message(SERVER_NAME, message.From, "", "*** Disconnected. Bye!"));
-                            listen = false;
-                            ConnectedUsers.Remove(id, out user);
-                            _streamOut.WriteLine($"User {user.Username} disconnected");
-                            Broadcast(new Message(SERVER_NAME, "", user.Channel, $"\"{user.Username}\" has left #{user.Channel}"));
-                            break;
-                        case "USERS":
-                            user.SendMessage(new Message(SERVER_NAME, message.From, "", $"These are registered users: [{string.Join(", ", ConnectedUsers.Select(c => c.Value.Username))}]"));
-                            break;
-                    }
-                }
-                else if (string.IsNullOrEmpty(message.To))
-                {
-                    Broadcast(message);
-                }
-                else
-                {
-                    SendToSpecificUser(message);
+                    case "CLOSE":
+                        user.SendMessage(new Message(SERVER_NAME, message.From, "", "*** Disconnected. Bye!"));                        
+                        _streamOut.WriteLine($"User {user.Username} disconnected");
+                        ConnectedUsers.Remove(id, out user);
+                        Broadcast(new Message(SERVER_NAME, "", user.Channel, $"\"{user.Username}\" has left #{user.Channel}"));
+                        throw new TaskCanceledException("Communication closed");
+                    case "USERS":
+                        user.SendMessage(new Message(SERVER_NAME, message.From, "", $"These are registered users: [{string.Join(", ", ConnectedUsers.Select(c => c.Value.Username))}]"));
+                        break;
                 }
             }
+            else if (string.IsNullOrEmpty(message.To))
+            {
+                Broadcast(message);
+            }
+            else
+            {
+                SendToSpecificUser(message);
+            }
+
         }
 
         private void SendToSpecificUser(Message message)
@@ -158,8 +161,7 @@ namespace TakeChat.Domain.Implementations
             try
             {
                 _listener.Start();
-                _streamOut.WriteLine("Server is running");
-                ListenToClients();
+                _streamOut.WriteLine("Server is running");                
             }
             catch (SocketException)
             {

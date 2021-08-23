@@ -19,6 +19,7 @@ namespace TakeChat.Server.Application
             var server = new TakeServer(new MyTcpListener(listener), consoleOut);
 
             server.Start();
+            server.ListenToClients();
             Console.ReadLine();
             server.Stop();
         }
