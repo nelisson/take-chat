@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using TakeChat.Domain.Entities;
 using Xunit;
 
@@ -32,12 +28,12 @@ namespace TakeChat.Domain.Test
             Assert.Equal(username, registeredUser.Username);
             Assert.Equal(channel, registeredUser.Channel);
         }
-        
+
         [Fact]
         public void SendMessage_WritingToStream_AreCorrectlySended()
         {
             using var memoryStream = new MemoryStream();
-            
+
             var usernameFrom = Faker.Internet.UserName();
             var usernameTo = Faker.Internet.UserName();
             var channel = GENERAL_CHANNEL;
@@ -62,12 +58,12 @@ namespace TakeChat.Domain.Test
             var usernameTo = Faker.Internet.UserName();
             var channel = GENERAL_CHANNEL;
             var body = A_MESSAGE;
-            
+
             var message = new Message(usernameFrom, usernameTo, channel, body);
             var jsonMessage = JsonSerializer.Serialize(message);
-            
+
             using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonMessage));
-            var registeredUser = new RegisteredUser(memoryStream);            
+            var registeredUser = new RegisteredUser(memoryStream);
             var receivedMessage = registeredUser.WaitForMessage();
 
             Assert.Equal(message, receivedMessage);

@@ -242,7 +242,7 @@ namespace TakeChat.Domain.Test
             var byeMessage = new Message(usernameFrom, usernameTo, channel, body);
             var jsonByeMessage = JsonSerializer.Serialize(byeMessage);
 
-            
+
             using var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonByeMessage));
             var textReaderMoq = new Mock<TextReader>();
             var textWriterMoq = new Mock<TextWriter>();

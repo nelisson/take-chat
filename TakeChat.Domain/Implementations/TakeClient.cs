@@ -45,7 +45,7 @@ namespace TakeChat.Domain.Implementations
                 {
                     ReadAndProccessInput();
                 }
-                catch(AggregateException)
+                catch (AggregateException)
                 {
                     break;
                 }
@@ -142,7 +142,7 @@ namespace TakeChat.Domain.Implementations
                 {
                     break;
                 }
-                
+
             }
         }
 
@@ -167,24 +167,24 @@ namespace TakeChat.Domain.Implementations
                     }
                     else
                     {
-                         _streamOut.WriteLine(message.Body);
+                        _streamOut.WriteLine(message.Body);
                     }
                 }
                 else
                 {
                     if (string.IsNullOrEmpty(message.To))
                     {
-                         _streamOut.WriteLine($"{message.From} says: {message.Body}");
+                        _streamOut.WriteLine($"{message.From} says: {message.Body}");
                     }
                     else
                     {
                         if (string.IsNullOrEmpty(message.Channel))
                         {
-                             _streamOut.WriteLine($"{message.From} says privately to {message.To}: {message.Body}");
+                            _streamOut.WriteLine($"{message.From} says privately to {message.To}: {message.Body}");
                         }
                         else
                         {
-                             _streamOut.WriteLine($"{message.From} says to {message.To}: {message.Body}");
+                            _streamOut.WriteLine($"{message.From} says to {message.To}: {message.Body}");
                         }
                     }
                 }
